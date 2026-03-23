@@ -40,23 +40,32 @@ public class MazeGUI extends JFrame {
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
+
 				if (engine == null)
 					return;
+				boolean moved = false;
 
 				switch (e.getKeyCode()) {
-					case KeyEvent.VK_UP -> engine.movePlayer(-1, 0);
-					case KeyEvent.VK_DOWN -> engine.movePlayer(1, 0);
-					case KeyEvent.VK_LEFT -> engine.movePlayer(0, -1);
-					case KeyEvent.VK_RIGHT -> engine.movePlayer(0, 1);
+					case KeyEvent.VK_UP -> moved = engine.movePlayer(-1, 0);
+					case KeyEvent.VK_DOWN -> moved = engine.movePlayer(1, 0);
+					case KeyEvent.VK_LEFT -> moved = engine.movePlayer(0, -1);
+					case KeyEvent.VK_RIGHT -> moved = engine.movePlayer(0, 1);
 				}
+				// ✅ only update if player actually moved
+				if (moved) {
+					stepCounter++;
+					infoPanel.setInfoSteps(stepCounter);
+					infoPanel.setInfoCoins(engine.getCoinsCollected());
+				}
+
 				gamePanel.repaint();
 
 				// Check for victory
 				if (engine.playerWins()) {
+					int score = (infoPanel.getInfoSteps() * -1) + (infoPanel.getInfoCoins() * 5);
+
 					JOptionPane.showMessageDialog(MazeGUI.this,
-							"Congratulations! You found the exit.\nYour got "
-									+ infoPanel.getInfoSteps() * 1 + infoPanel.getInfoCoins()
-									+ "points",
+							"Congratulations! You found the exit.\nYour score: " + score,
 							"Level Complete", JOptionPane.INFORMATION_MESSAGE);
 
 					// Optional: Disable engine to prevent movement after win
@@ -93,6 +102,8 @@ public class MazeGUI extends JFrame {
 	private void openFile() {
 		JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
 		int result = fileChooser.showOpenDialog(this);
+		stepCounter = 0;
+		infoPanel.setInfoSteps(stepCounter);
 
 		if (result == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fileChooser.getSelectedFile();
@@ -113,6 +124,8 @@ public class MazeGUI extends JFrame {
 	 * Resets the game to its original loaded board.
 	 */
 	private void resetGame() {
+		stepCounter = 0;
+		infoPanel.setInfoSteps(stepCounter);
 		if (originalBoard != null) {
 			currentBoard = originalBoard.clone();
 			engine = new GameEngine(currentBoard);
@@ -131,12 +144,14 @@ public class MazeGUI extends JFrame {
 		public InfoPanel() {
 			this.setLayout(new FlowLayout());
 			this.add(new JLabel("Steps: "));
-			// infoRemainingSteps is a label which value can be changed using its method called
+			// infoRemainingSteps is a label which value can be changed using its method
+			// called
 			// setText
 			infoSteps = new JLabel("0");
 			this.add(infoSteps);
 			this.add(new JLabel("Coins: "));
-			// infoCoins is a label which value can be changed using its method called setText
+			// infoCoins is a label which value can be changed using its method called
+			// setText
 			infoCoins = new JLabel("0");
 			this.add(infoCoins);
 		}
