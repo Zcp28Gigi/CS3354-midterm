@@ -1,5 +1,10 @@
 package edu.txst.midterm;
 
+/**
+ * Controls the maze game logic.
+ * This class keeps track of the board, the player's position,
+ * and the exit position. It also handles player movement.
+ */
 public class GameEngine {
 	private Board board;
 	private int playerRow;
@@ -34,6 +39,9 @@ public class GameEngine {
 		return playerRow == exitRow && playerCol == exitCol;
 	}
 
+	/**
+	 * Finds the player's starting position on the board.
+	 */
 	private void findPlayer() {
 		for (int r = 0; r < 6; r++) {
 			for (int c = 0; c < 10; c++) {
@@ -46,6 +54,9 @@ public class GameEngine {
 		}
 	}
 
+	/**
+	 * Finds the exit position on the board.
+	 */
 	private void findExit() {
 		for (int r = 0; r < 6; r++) {
 			for (int c = 0; c < 10; c++) {
@@ -59,10 +70,11 @@ public class GameEngine {
 	}
 
 	/**
-	 * Attempts to move the player.
-	 * 
-	 * @param dRow Change in row (-1, 0, 1)
-	 * @param dCol Change in column (-1, 0, 1)
+	 * Attempts to move the player by the given row and column change.
+	 * Movement is blocked if the target cell is a wall or out of bounds.
+	 *
+	 * @param dRow change in row
+	 * @param dCol change in column
 	 */
 	public boolean movePlayer(int dRow, int dCol) {
 		int targetRow = playerRow + dRow;
