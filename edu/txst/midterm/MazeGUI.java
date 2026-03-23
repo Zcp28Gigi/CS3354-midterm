@@ -41,6 +41,8 @@ public class MazeGUI extends JFrame {
 					case KeyEvent.VK_LEFT -> engine.movePlayer(0, -1);
 					case KeyEvent.VK_RIGHT -> engine.movePlayer(0, 1);
 				}
+				stepCounter++;
+				infoPanel.setInfoSteps(stepCounter);
 				gamePanel.repaint();
 
 				// Check for victory
@@ -79,6 +81,8 @@ public class MazeGUI extends JFrame {
 	private void openFile() {
 		JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
 		int result = fileChooser.showOpenDialog(this);
+		stepCounter = 0;
+		infoPanel.setInfoSteps(stepCounter);
 
 		if (result == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fileChooser.getSelectedFile();
@@ -96,6 +100,8 @@ public class MazeGUI extends JFrame {
 	}
 
 	private void resetGame() {
+		stepCounter = 0;
+		infoPanel.setInfoSteps(stepCounter);
 		if (originalBoard != null) {
 			currentBoard = originalBoard.clone();
 			engine = new GameEngine(currentBoard);
@@ -112,12 +118,14 @@ public class MazeGUI extends JFrame {
 		public InfoPanel() {
 			this.setLayout(new FlowLayout());
 			this.add(new JLabel("Steps: "));
-			// infoRemainingSteps is a label which value can be changed using its method called
+			// infoRemainingSteps is a label which value can be changed using its method
+			// called
 			// setText
 			infoSteps = new JLabel("0");
 			this.add(infoSteps);
 			this.add(new JLabel("Coins: "));
-			// infoCoins is a label which value can be changed using its method called setText
+			// infoCoins is a label which value can be changed using its method called
+			// setText
 			infoCoins = new JLabel("0");
 			this.add(infoCoins);
 		}
