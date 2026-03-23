@@ -13,7 +13,11 @@ public class GameEngine {
 	private static final int COIN = 2;
 	private static final int EXIT = 5;
 	private static final int PLAYER = 6;
+	private int coinsCollected = 0;
 
+	public int getCoinsCollected() {
+		return coinsCollected;
+	}
 
 	public GameEngine(Board board) {
 		this.board = board;
@@ -22,7 +26,7 @@ public class GameEngine {
 	}
 
 	public boolean playerWins() {
-		return false;
+		return playerRow == exitRow && playerCol == exitCol;
 	}
 
 	private void findPlayer() {
@@ -65,6 +69,10 @@ public class GameEngine {
 			return; // Movement blocked
 		}
 
+		// added coin collection logic here before moving the player
+		if (targetCell == COIN) {
+			coinsCollected++;
+		}
 		// Move the Player
 		// Current position becomes Floor (or Goal if player was standing on one)
 		// Note: For simplicity, this engine assumes player replaces the cell.

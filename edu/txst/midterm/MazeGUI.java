@@ -32,6 +32,7 @@ public class MazeGUI extends JFrame {
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
+
 				if (engine == null)
 					return;
 
@@ -41,8 +42,11 @@ public class MazeGUI extends JFrame {
 					case KeyEvent.VK_LEFT -> engine.movePlayer(0, -1);
 					case KeyEvent.VK_RIGHT -> engine.movePlayer(0, 1);
 				}
+				// update AFTER movement
 				stepCounter++;
 				infoPanel.setInfoSteps(stepCounter);
+				infoPanel.setInfoCoins(engine.getCoinsCollected());
+
 				gamePanel.repaint();
 
 				// Check for victory
