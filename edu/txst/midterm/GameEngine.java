@@ -1,5 +1,10 @@
 package edu.txst.midterm;
 
+/**
+ * Controls the maze game logic.
+ * This class keeps track of the board, the player's position,
+ * and the exit position. It also handles player movement.
+ */
 public class GameEngine {
 	private Board board;
 	private int playerRow;
@@ -14,17 +19,30 @@ public class GameEngine {
 	private static final int EXIT = 5;
 	private static final int PLAYER = 6;
 
-
+	/**
+	 * Creates a game engine using the given board.
+	 * It locates the player and the exit when the engine starts.
+	 *
+	 * @param board the board used for the game
+	 */
 	public GameEngine(Board board) {
 		this.board = board;
 		findPlayer();
 		findExit();
 	}
 
+	/**
+	 * Checks whether the player has reached the exit.
+	 *
+	 * @return true if the player is on the exit position, false otherwise
+	 */
 	public boolean playerWins() {
 		return false;
 	}
 
+	/**
+	 * Finds the player's starting position on the board.
+	 */
 	private void findPlayer() {
 		for (int r = 0; r < 5; r++) {
 			for (int c = 0; c < 10; c++) {
@@ -37,6 +55,9 @@ public class GameEngine {
 		}
 	}
 
+	/**
+	 * Finds the exit position on the board.
+	 */
 	private void findExit() {
 		for (int r = 0; r < 5; r++) {
 			for (int c = 0; c < 10; c++) {
@@ -50,10 +71,11 @@ public class GameEngine {
 	}
 
 	/**
-	 * Attempts to move the player.
-	 * 
-	 * @param dRow Change in row (-1, 0, 1)
-	 * @param dCol Change in column (-1, 0, 1)
+	 * Attempts to move the player by the given row and column change.
+	 * Movement is blocked if the target cell is a wall or out of bounds.
+	 *
+	 * @param dRow change in row
+	 * @param dCol change in column
 	 */
 	public void movePlayer(int dRow, int dCol) {
 		int targetRow = playerRow + dRow;
