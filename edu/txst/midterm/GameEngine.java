@@ -25,12 +25,17 @@ public class GameEngine {
 		findExit();
 	}
 
+	/**
+	 * Checks if the player has reached the exit.
+	 * 
+	 * @return true if player is on the exit cell, false otherwise
+	 */
 	public boolean playerWins() {
 		return playerRow == exitRow && playerCol == exitCol;
 	}
 
 	private void findPlayer() {
-		for (int r = 0; r < 5; r++) {
+		for (int r = 0; r < 6; r++) {
 			for (int c = 0; c < 10; c++) {
 				if (board.getCell(r, c) == PLAYER) {
 					playerRow = r;
@@ -42,7 +47,7 @@ public class GameEngine {
 	}
 
 	private void findExit() {
-		for (int r = 0; r < 5; r++) {
+		for (int r = 0; r < 6; r++) {
 			for (int c = 0; c < 10; c++) {
 				if (board.getCell(r, c) == EXIT) {
 					exitRow = r;
