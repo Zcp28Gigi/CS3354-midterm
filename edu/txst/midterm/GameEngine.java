@@ -59,29 +59,25 @@ public class GameEngine {
 	 * @param dRow Change in row (-1, 0, 1)
 	 * @param dCol Change in column (-1, 0, 1)
 	 */
-	public void movePlayer(int dRow, int dCol) {
+	public boolean movePlayer(int dRow, int dCol) {
 		int targetRow = playerRow + dRow;
 		int targetCol = playerCol + dCol;
 		int targetCell = board.getCell(targetRow, targetCol);
 
-		// Check for Walls or Out of Bounds
 		if (targetCell == WALL || targetCell == -1) {
-			return; // Movement blocked
+			return false; // ❌ no move
 		}
 
-		// added coin collection logic here before moving the player
 		if (targetCell == COIN) {
 			coinsCollected++;
 		}
-		// Move the Player
-		// Current position becomes Floor (or Goal if player was standing on one)
-		// Note: For simplicity, this engine assumes player replaces the cell.
-		// If you want "Player on Goal", you'd add a 6th constant.
+
 		board.setCell(playerRow, playerCol, FLOOR);
 
 		playerRow = targetRow;
 		playerCol = targetCol;
 		board.setCell(playerRow, playerCol, PLAYER);
 
+		return true; // ✅ moved
 	}
 }
