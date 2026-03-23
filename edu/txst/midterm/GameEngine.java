@@ -27,13 +27,7 @@ public class GameEngine {
 	 * @return true if player is on the exit cell, false otherwise
 	 */
 	public boolean playerWins() {
-		System.out.println("Player Position: (" + playerRow + ", " + playerCol + ")");
-		System.out.println("Exit Position: (" + exitRow + ", " + exitCol + ")");
-		if (playerRow == exitRow && playerCol == exitCol) {
-			return true;
-		} else {
-			return false;
-		}
+		return playerRow == exitRow && playerCol == exitCol;
 	}
 
 	private void findPlayer() {
